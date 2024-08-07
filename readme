@@ -1,91 +1,58 @@
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import javax.swing.*;
-import java.awt.*;
-import java.util.Arrays;
-import java.util.Random;
+# Quicksort Time Complexity Visualization
 
-public class QuickSortTimeComplexity {
+This project demonstrates the time complexity of the Quicksort algorithm by sorting arrays of various sizes and measuring the time taken. The results are visualized using a line chart created with JFreeChart.
 
-    public static void main(String[] args) {
-        int[] sizes = {1000, 5000, 10000, 50000, 100000, 500000, 1000000};
-        XYSeries series = new XYSeries("Quicksort Time Complexity");
+## Prerequisites
 
-        for (int size : sizes) {
-            long duration = measureQuicksortTime(size);
-            series.add(size, duration);
-            System.out.println("Array size: " + size + " | Time taken: " + duration + " ms");
-        }
+- Java Development Kit (JDK) 8 or higher
 
-        XYSeriesCollection dataset = new XYSeriesCollection(series);
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Quicksort Time Complexity",
-                "Array Size",
-                "Time (ms)",
-                dataset,
-                PlotOrientation.VERTICAL,
-                true,
-                true,
-                false
-        );
+## Getting Started
 
-        XYPlot plot = chart.getXYPlot();
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesShapesVisible(0, true);
-        plot.setRenderer(renderer);
+1. *Clone the repository:*
 
-        JFrame frame = new JFrame("Quicksort Time Complexity");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        ChartPanel chartPanel = new ChartPanel(chart);
-        frame.add(chartPanel, BorderLayout.CENTER);
-        frame.pack();
-        frame.setVisible(true);
-    }
+    sh
+    git clone https://github.com/yourusername/quicksort-time-complexity.git
+    cd quicksort-time-complexity
+    
 
-    public static long measureQuicksortTime(int size) {
-        int[] randomArray = new int[size];
-        Random rand = new Random();
-        for (int i = 0; i < size; i++) {
-            randomArray[i] = rand.nextInt(size);
-        }
+2. *Download JFreeChart library:*
+   
+   Download the following JAR files and place them in the lib directory:
+   - [JFreeChart](https://repo1.maven.org/maven2/org/jfree/jfreechart/1.5.3/jfreechart-1.5.3.jar)
+   - [JCommon](https://repo1.maven.org/maven2/org/jfree/jcommon/1.0.24/jcommon-1.0.24.jar)
 
-        long startTime = System.nanoTime();
-        quicksort(randomArray, 0, randomArray.length - 1);
-        long endTime = System.nanoTime();
-        return (endTime - startTime) / 1000000; // convert to milliseconds
-    }
+3. *Compile the project:*
 
-    public static void quicksort(int[] array, int low, int high) {
-        if (low < high) {
-            int pivotIndex = partition(array, low, high);
-            quicksort(array, low, pivotIndex - 1);
-            quicksort(array, pivotIndex + 1, high);
-        }
-    }
+    sh
+    javac -cp lib/jfreechart-1.5.3.jar:lib/jcommon-1.0.24.jar -d . src/QuickSortTimeComplexity.java
+    
 
-    public static int partition(int[] array, int low, int high) {
-        int pivot = array[high];
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (array[j] <= pivot) {
-                i++;
-                swap(array, i, j);
-            }
-        }
-        swap(array, i + 1, high);
-        return i + 1;
-    }
+    (Note: Use ; instead of : for the classpath separator on Windows)
 
-    public static void swap(int[] array, int i, int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-}
+4. *Run the application:*
+
+    sh
+    java -cp .:lib/jfreechart-1.5.3.jar:lib/jcommon-1.0.24.jar QuickSortTimeComplexity
+    
+
+    (Note: Use ; instead of : for the classpath separator on Windows)
+
+## Project Structure
+
+- src/QuickSortTimeComplexity.java: Contains the main logic for the Quicksort algorithm, measuring execution time, and generating the time complexity graph.
+- lib/: Contains the JFreeChart and JCommon library JAR files.
+- README.md: Instructions for setting up and running the project.
+
+## Dependencies
+
+The project uses the following main dependency:
+
+- JFreeChart: For creating and displaying the time complexity graph.
+
+## Example Output
+
+The program sorts arrays of various sizes, measures the time taken for each, and displays a line chart showing the relationship between array size and time taken to sort.
+
+## License
+
+This project is licensed under the MIT License.
